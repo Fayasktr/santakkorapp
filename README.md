@@ -15,7 +15,7 @@
 
 ---
 
-*Santa-GPS*
+**📍 Santa-GPS**
 ->when a user login then santa will get the location of user.
 ->Then Santa can go directly where the user located. 
 ->Santa can understand whick location have more users..
@@ -63,6 +63,8 @@
 | Landing Page | Chat Interface | Santa Dashboard |
 | :---: | :---: | :---: |
 | ![Home](https://via.placeholder.com/300x200?text=Home+Page) | ![Chat](https://via.placeholder.com/300x200?text=Chat+Interface) | ![Dashboard](https://via.placeholder.com/300x200?text=Santa+Dashboard) |
+
+**I am sorry, i can't set the images here, but i uploaded all images on all application images file**
 
 ---
 
