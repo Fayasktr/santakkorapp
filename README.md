@@ -27,43 +27,6 @@
 
 ---
 
-## 🚀 Setup Instructions
-
-Follow these steps to get the project running locally:
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) installed
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account or local MongoDB installation
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/santakkoruapp.git
-   cd santakkoruapp
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Setup:**
-   Create a `.env` file in the root directory and add the following variables:
-   ```env
-   PORT=3000
-   MONGO_URI=your_mongodb_connection_string
-   SESSION_SECRET=your_random_secret_here
-   ```
-
-4. **Run the application:**
-   - For production: `npm start`
-   - For development (auto-reload): `npm run dev` (if nodemon is configured)
-
-5. **Access the App:**
-   Open your browser and go to `http://localhost:3000`
-
----
 
 ## 📸 Screenshots
 
@@ -71,21 +34,9 @@ Follow these steps to get the project running locally:
 | :---: | :---: | :---: |
 | ![Home](https://via.placeholder.com/300x200?text=Home+Page) | ![Chat](https://via.placeholder.com/300x200?text=Chat+Interface) | ![Dashboard](https://via.placeholder.com/300x200?text=Santa+Dashboard) |
 
-*(Note: Replace with actual screenshots before submission)*
-
 ---
 
-## 🏆 Hackathon Guidelines Adherence
 
-This project was built following the **"Santa-ക്ക് ഒരു App" Online Hackathon** guidelines by the **Brototype Student Excellence Team**:
-
-- **[x] Originality:** Built from scratch for this hackathon.
-- **[x] Public Repo:** Repository is public and documented.
-- **[x] Individual Submission:** Developed individually.
-- **[x] Proper README:** Comprehensive documentation included.
-- **[x] AI Usage:** Utilized AI tools for development enhancement.
-
----
 
 ## 🤝 Acknowledgments
 
