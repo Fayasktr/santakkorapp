@@ -1,6 +1,6 @@
 # 🎅 zigSanta - Kerala's Own Santa Gift-Giver
-->z=zoom, it have a map that's why "z"
-->i=intelligent, it have special feture that when user get a nick name then santa will understand the person based on the nick name.
+->z=zoom, it have a map that's why "z"\n
+->i=intelligent, it have special feture that when user get a nick name then santa will understand the person based on the nick name.\n
 ->g=gift, main purpose of the app is asking gift and santa give gift to that persons, and Santa can chat what type of gift you need, and give work to the person to do before gift, that's the use case of the chat application.
 
 
