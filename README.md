@@ -1,4 +1,8 @@
-# 🎅 zigSanta - Kerala's Own Sarcastic Gift-Giver
+# 🎅 zigSanta - Kerala's Own Santa Gift-Giver
+->z=zoom, it have a map that's why "z"
+->i=intelligent, it have special feture that when user get a nick name then santa will understand the person based on the nick name.
+->g=gift, main purpose of the app is asking gift and santa give gift to that persons, and Santa can chat what type of gift you need, and give work to the person to do before gift, that's the use case of the chat application.
+
 
 **zigSanta** (Santakku Oru App) is a fun, interactive web application built for the **"Santa-ക്ക് ഒരു App" Online Hackathon**. It's not just another Santa app—it's customized for the Kerala vibe, allowing users to chat with a sarcastic Santa in Malayalam/Manglish and share their most heartfelt (or hilarious) wishes.
 
@@ -67,8 +71,6 @@
 **I am sorry, i can't set the images here, but i uploaded all images on all application images file**
 
 ---
-
-
 
 ## 🤝 Acknowledgments
 
