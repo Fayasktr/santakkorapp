@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zigSanta - Santakkorapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        santa: {
+                            red: '#ff4d4d',
+                            gold: '#f1c40f',
+                            dark: '#0f0c29',
+                        }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+    <div class="snow-container" id="snow-container"></div>
+
+    <header class="glass sticky top-0 z-40 px-6 py-4 flex justify-between items-center text-white">
+        <div class="text-2xl font-black tracking-tighter">
+            zig<span class="text-santa-red">Santa</span> 🎅
+        </div>
+        <nav>
+            <ul class="flex space-x-8 font-semibold">
+                <li><a href="/" class="hover:text-santa-red transition">Home</a></li>
+                {{#if user}}
+                <li><a href="/wish" class="hover:text-santa-red transition">Wishes</a></li>
+                <li><a href="/chat" class="hover:text-santa-red transition">Chat</a></li>
+                <li><a href="/logout"
+                        class="bg-santa-red px-4 py-2 rounded-full hover:bg-opacity-80 transition">Logout</a></li>
+                {{else}}
+                <li><a href="/login" class="hover:text-santa-red transition">Login</a></li>
+                <li><a href="/register"
+                        class="bg-santa-red px-4 py-2 rounded-full hover:bg-opacity-80 transition">Register</a></li>
+                {{/if}}
+            </ul>
+        </nav>
+    </header>
+
+
+    <main class="flex-grow container mx-auto px-4 py-12">
+        {{{body}}}
+    </main>
+
+    <footer class="glass py-8 text-center text-sm opacity-60">
+        <p>&copy; 2025 zigSanta. All wishes granted (maybe). Made with ❤️ in Kerala.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

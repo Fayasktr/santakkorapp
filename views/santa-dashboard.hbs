@@ -1,0 +1,179 @@
+<div class="space-y-12">
+    <header class="flex justify-between items-end border-b border-white/10 pb-8">
+        <div class="space-y-2">
+            <h1 class="text-5xl font-black">Santa's Dashboard 🎅🛸</h1>
+            <p class="text-santa-gold font-bold">Monitoring Kerala's miscreants and good kids...</p>
+        </div>
+        <div class="bg-santa-red px-6 py-3 rounded-2xl font-bold animate-pulse">LIVE FEED</div>
+    </header>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <!-- Live Map -->
+        <div class="glass rounded-[3rem] p-8 space-y-4">
+            <h3 class="text-2xl font-bold flex items-center gap-3">
+                <span>🌍</span> Live User Map
+            </h3>
+            <div id="santaMap" class="h-[500px] w-full rounded-2xl border-4 border-white/5 overflow-hidden"></div>
+        </div>
+
+        <!-- User Management -->
+        <div class="glass rounded-[3rem] p-8 space-y-6">
+            <h3 class="text-2xl font-bold flex items-center gap-3">
+                <span>🧠</span> Santa's Memory (Assosiations)
+            </h3>
+            <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                {{#each users}}
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col gap-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold">{{this.name}}</span>
+                        <button onclick="openChat('{{this._id}}', '{{this.name}}')"
+                            class="bg-santa-gold text-santa-dark px-4 py-2 rounded-xl text-xs font-black hover:scale-105 transition">
+                            OPEN CHAT
+                        </button>
+                    </div>
+
+                    <form action="/admin/memory" method="POST" class="grid grid-cols-2 gap-3">
+                        <input type="hidden" name="userId" value="{{this._id}}">
+                        <select name="nickname"
+                            class="bg-white/10 border border-white/10 rounded-xl p-2 text-sm outline-none focus:border-santa-gold">
+                            <option value="none">Set Tag</option>
+                            <option value="oottal">Oottal</option>
+                            <option value="kudiyan">Kudiyan</option>
+                            <option value="complainter">Complainter</option>
+                            <option value="vayadi">Vayadi</option>
+                            <option value="nallavan">Nallavan</option>
+                        </select>
+                        <input type="text" name="notes" placeholder="Notes..."
+                            class="bg-white/10 border border-white/10 rounded-xl p-2 text-sm outline-none focus:border-santa-gold text-white">
+                        <button type="submit"
+                            class="col-span-2 bg-white/10 py-2 rounded-xl text-xs font-bold hover:bg-white/20 transition">SAVE
+                            MEMORY</button>
+                    </form>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Wishes -->
+    <div class="glass rounded-[3rem] p-10 space-y-8">
+        <h3 class="text-3xl font-black">Recent Wishes 🎁</h3>
+        <div class="overflow-x-auto rounded-3xl border border-white/10">
+            <table class="w-full text-left">
+                <thead class="bg-white/10 text-santa-gold uppercase text-xs font-black tracking-widest">
+                    <tr>
+                        <th class="p-6">User</th>
+                        <th class="p-6">Wish</th>
+                        <th class="p-6">zigSanta's Reply</th>
+                        <th class="p-6">Time</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    {{#each wishes}}
+                    <tr class="hover:bg-white/5 transition">
+                        <td class="p-6 font-bold">{{this.user.name}}</td>
+                        <td class="p-6 opacity-80">{{this.wish}}</td>
+                        <td class="p-6 text-santa-red font-semibold">{{this.reply}}</td>
+                        <td class="p-6 text-xs whitespace-nowrap opacity-50">{{this.createdAt}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Chat Overlay -->
+<div id="adminChatBox"
+    class="fixed bottom-8 right-8 w-96 glass rounded-[2.5rem] shadow-2xl z-50 flex flex-col overflow-hidden border-2 border-santa-gold/30 hidden">
+    <div class="bg-santa-gold p-6 flex justify-between items-center text-santa-dark">
+        <h3 id="chatTitle" class="font-black">Chatting with User</h3>
+        <button onclick="closeChat()" class="text-2xl font-bold leading-none">×</button>
+    </div>
+    <div id="adminChatMessages" class="h-96 overflow-y-auto p-6 flex flex-col gap-4 text-sm"></div>
+    <div class="p-6 border-t border-white/10 flex gap-2">
+        <input type="text" id="adminMsgInput" placeholder="Santa's reply..."
+            class="flex-grow bg-white/5 border border-white/10 rounded-xl p-3 outline-none focus:border-santa-gold transition text-sm">
+        <button id="adminSendBtn" class="bg-santa-gold text-santa-dark p-3 rounded-xl font-black shadow-lg">🚀</button>
+    </div>
+</div>
+
+<script>
+    window.socket = io();
+    let currentChatUserId = null;
+
+    socket.emit('join', 'santa');
+
+    const map = L.map('santaMap').setView([10.8505, 76.2711], 8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    const users = {{{ usersJSON }}};
+    users.forEach(u => {
+        if (u.location && u.location.coordinates) {
+            const marker = L.marker([u.location.coordinates[1], u.location.coordinates[0]]).addTo(map);
+            marker.bindPopup(`<b>${u.name}</b><br>Santa watching...`);
+        }
+    });
+
+    // Chat Utils
+    const chatBox = document.getElementById('adminChatBox');
+    const chatTitle = document.getElementById('chatTitle');
+    const chatMessages = document.getElementById('adminChatMessages');
+    const msgInput = document.getElementById('adminMsgInput');
+    const sendBtn = document.getElementById('adminSendBtn');
+
+    function openChat(uid, name) {
+        currentChatUserId = uid;
+        chatTitle.innerText = `Santa 🤶 vs ${name}`;
+        chatBox.classList.remove('hidden');
+        chatMessages.innerHTML = '';
+    }
+
+    function closeChat() {
+        chatBox.classList.add('hidden');
+        currentChatUserId = null;
+    }
+
+    sendBtn.onclick = () => {
+        const text = msgInput.value.trim();
+        if (text && currentChatUserId) {
+            socket.emit('sendMessage', {
+                senderId: 'santa',
+                receiverId: currentChatUserId,
+                text: text,
+                role: 'santa'
+            });
+            appendMsg('Santa', text, 'santa');
+            msgInput.value = '';
+        }
+    };
+
+    socket.on('santaMessage', (data) => {
+        if (currentChatUserId === data.senderId) {
+            appendMsg('User', data.text, 'user');
+        }
+    });
+
+    function appendMsg(sender, text, type) {
+        const div = document.createElement('div');
+        div.className = `p-3 rounded-2xl max-w-[85%] ${type === 'santa' ? 'bg-santa-gold text-santa-dark self-end' : 'bg-white/10 border border-white/10 self-start'}`;
+        div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+</style>

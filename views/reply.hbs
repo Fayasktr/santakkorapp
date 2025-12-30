@@ -1,0 +1,51 @@
+<div class="max-w-4xl mx-auto animate-bounce-in">
+    <div class="glass p-12 rounded-[4rem] text-center space-y-10 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-santa-red via-santa-gold to-santa-red"></div>
+
+        <h2 class="text-6xl font-black text-santa-red">Ho Ho Ho! 🎅</h2>
+
+        <div class="space-y-4 bg-white/5 p-8 rounded-3xl border border-white/10 text-left">
+            <p class="text-santa-gold font-bold tracking-widest text-sm">NINTE WISH:</p>
+            <p class="text-2xl italic opacity-90">"{{wish.wish}}"</p>
+        </div>
+
+        <div class="space-y-6">
+            <p class="text-santa-red font-bold tracking-widest text-sm uppercase">zigSanta Parayunnu:</p>
+            <h3 class="text-4xl md:text-5xl font-black leading-snug">
+                {{wish.reply}}
+            </h3>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-center gap-6 pt-6">
+            <a href="/wish" class="glass px-10 py-5 rounded-full font-bold hover:bg-white/10 transition">
+                Oru wish koodi? 🎁
+            </a>
+            <a href="/"
+                class="bg-santa-dark px-10 py-5 rounded-full font-bold border border-white/10 hover:border-white/30 transition">
+                Go Home
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        60% {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .animate-bounce-in {
+        animation: bounce-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+</style>

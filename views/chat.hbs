@@ -1,0 +1,92 @@
+<div class="max-w-4xl mx-auto h-[700px] flex flex-col glass rounded-[3rem] overflow-hidden shadow-2xl relative">
+    <div class="absolute top-0 right-10 text-8xl opacity-5 pointer-events-none">🎄</div>
+
+    <header class="p-8 border-b border-white/10 bg-white/5 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <div
+                class="w-16 h-16 bg-santa-red rounded-full flex items-center justify-center text-3xl shadow-xl shadow-red-500/20">
+                🎅</div>
+            <div>
+                <h2 class="text-2xl font-black">Chat with zigSanta</h2>
+                <p class="text-green-400 text-sm font-bold flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Santa is online
+                </p>
+            </div>
+        </div>
+        <div class="text-santa-gold font-bold italic opacity-60">"Ho Ho Ho!"</div>
+    </header>
+
+    <div id="chatMessages" class="flex-grow overflow-y-auto p-8 flex flex-col gap-6 custom-scrollbar">
+        <div class="bg-santa-red p-5 rounded-3xl rounded-tl-none self-start max-w-[80%] shadow-lg shadow-red-500/10">
+            <p class="font-bold mb-1">zigSanta 🎅</p>
+            <p class="text-lg">Ho Ho Ho! {{userName}} mone/mole, entoke undu vishesham? Wishes ellam parayu... njan
+                ready aanu!
+            </p>
+        </div>
+    </div>
+
+    <div class="p-8 border-t border-white/10 bg-white/5">
+        <div class="flex gap-4">
+            <input type="text" id="msgInput" placeholder="Type your message in Malayalam/Manglish..."
+                class="flex-grow bg-white/5 border-2 border-white/10 rounded-2xl p-5 text-lg outline-none focus:border-santa-red transition placeholder:opacity-30">
+            <button id="sendBtn"
+                class="bg-santa-red px-8 py-5 rounded-2xl font-black text-xl shadow-xl shadow-red-500/20 hover:scale-[1.05] transition-transform">
+                Send 🚀
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const userId = "{{user}}";
+    const socket = io();
+
+    socket.emit('join', userId);
+
+    const chatMessages = document.getElementById('chatMessages');
+    const msgInput = document.getElementById('msgInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    sendBtn.onclick = () => {
+        const text = msgInput.value.trim();
+        if (text) {
+            socket.emit('sendMessage', {
+                senderId: userId,
+                receiverId: 'santa',
+                text: text,
+                role: 'user'
+            });
+            appendMessage('Me', text, 'user');
+            msgInput.value = '';
+        }
+    };
+
+    socket.on('message', (data) => {
+        appendMessage('zigSanta 🎅', data.text, 'santa');
+    });
+
+    function appendMessage(sender, text, type) {
+        const div = document.createElement('div');
+        div.className = `p-5 rounded-3xl max-w-[80%] shadow-lg ${type === 'santa' ? 'bg-santa-red rounded-tl-none self-start shadow-red-500/10' : 'bg-white/10 border border-white/10 rounded-tr-none self-end shadow-black/20'}`;
+        div.innerHTML = `<p class="font-bold mb-1 text-sm opacity-60">${sender}</p><p class="text-lg">${text}</p>`;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    msgInput.onkeypress = (e) => { if (e.key === 'Enter') sendBtn.click(); }
+</script>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+</style>

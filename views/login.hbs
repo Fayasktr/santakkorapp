@@ -1,0 +1,31 @@
+<div class="max-w-md mx-auto">
+    <div class="glass p-10 rounded-[2.5rem] shadow-2xl space-y-8">
+        <div class="text-center space-y-2">
+            <h2 class="text-4xl font-black text-santa-gold">Welcome Back! 🎅</h2>
+            <p class="opacity-70">Santa missed you.</p>
+        </div>
+
+        <form action="/login" method="POST" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-sm font-bold ml-2">EMAIL</label>
+                <input type="email" name="email" required placeholder="User email"
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:ring-2 focus:ring-santa-gold outline-none transition">
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-bold ml-2">PASSWORD</label>
+                <input type="password" name="password" required placeholder="Password"
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:ring-2 focus:ring-santa-gold outline-none transition">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-santa-gold text-santa-dark py-5 rounded-2xl font-black text-xl shadow-xl shadow-yellow-500/20 transform active:scale-95 transition">
+                Login 🚀
+            </button>
+        </form>
+
+        <p class="text-center opacity-60 text-sm">
+            Not in the list yet? <a href="/register" class="text-santa-gold font-bold underline">Create Account</a>
+        </p>
+    </div>
+</div>

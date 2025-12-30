@@ -1,0 +1,70 @@
+<div class="max-w-md mx-auto">
+    <div class="glass p-10 rounded-[2.5rem] shadow-2xl space-y-8">
+        <div class="text-center space-y-2">
+            <h2 class="text-4xl font-black">Register 🎅</h2>
+            <p class="opacity-70">Join Santa's list. He's watching!</p>
+        </div>
+
+        <form id="registerForm" action="/register" method="POST" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-sm font-bold ml-2">WHO ARE YOU?</label>
+                <input type="text" name="name" required placeholder="mone/mole..."
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:ring-2 focus:ring-santa-red outline-none transition">
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-bold ml-2">EMAIL</label>
+                <input type="email" name="email" required placeholder="santa@kerala.com"
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:ring-2 focus:ring-santa-red outline-none transition">
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-bold ml-2">PIN CODE (PASSWORD)</label>
+                <input type="password" name="password" required placeholder="Secret code..."
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:ring-2 focus:ring-santa-red outline-none transition">
+            </div>
+
+            <input type="hidden" name="lat" id="lat">
+            <input type="hidden" name="lng" id="lng">
+
+            <div id="locationStatus"
+                class="bg-santa-gold/20 text-santa-gold p-4 rounded-xl text-sm font-bold text-center">
+                Checking location... 📍
+            </div>
+
+            <button type="submit" id="regBtn" disabled
+                class="w-full bg-santa-red py-5 rounded-2xl font-black text-xl shadow-xl shadow-red-500/20 disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-95 transition">
+                Register (Checking Location...)
+            </button>
+        </form>
+
+        <p class="text-center opacity-60 text-sm">
+            Already in the list? <a href="/login" class="text-santa-red font-bold underline">Login here</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                document.getElementById('lat').value = position.coords.latitude;
+                document.getElementById('lng').value = position.coords.longitude;
+                const status = document.getElementById('locationStatus');
+                status.innerText = "Location found! Santa is watching. 🎅";
+                status.classList.replace('bg-santa-gold/20', 'bg-green-500/20');
+                status.classList.replace('text-santa-gold', 'text-green-400');
+
+                const btn = document.getElementById('regBtn');
+                btn.disabled = false;
+                btn.innerText = "Register Now 🚀";
+            },
+            (err) => {
+                const status = document.getElementById('locationStatus');
+                status.innerText = "Location denied. Santa needs it to find you! 😢";
+                status.classList.replace('bg-santa-gold/20', 'bg-red-500/20');
+                status.classList.replace('text-santa-gold', 'text-red-400');
+            }
+        );
+    }
+</script>
